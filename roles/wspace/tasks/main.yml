@@ -1,0 +1,64 @@
+- name: Install system wide packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - keepass
+    - unzip
+
+- name: Install pip packages
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - awscli
+
+- name: Create bin directory
+  file:
+    path: "{{ admin_home }}/bin"
+    state: directory
+
+- name: Download archives
+  get_url:
+    url: "{{ item }}"
+    dest: "/tmp/"
+    url_username: "{{ artifacts_user }}"
+    url_password: "{{ artifacts_password }}"
+    owner: "{{ admin_user }}"
+    group: "{{ admin_group }}"
+    force: yes
+  with_items:
+    - "{{ direnv_url }}"
+    - "{{ helm_url }}"
+    - "{{ kops_url }}"
+    - "{{ kubectl_url }}"
+    - "{{ terraform_url }}"
+
+- name: Unzip archives
+  unarchive:
+    src: "/tmp/{{ item }}.zip"
+    dest: "{{ app_path }}"
+    remote_src: yes
+    mode: '0755'
+  with_items:
+    - direnv-{{ direnv_version }}
+    - helm-{{ helm_version }}
+    - kops-{{ kops_version }}
+    - kubectl-{{ kubectl_version }}
+    - terraform-{{ terraform_version }}
+
+- name: Remove archives
+  file:
+    path: /tmp/{{ item }}.zip
+    state: absent
+  with_items:
+    - direnv-{{ direnv_version }}
+    - helm-{{ helm_version }}
+    - kops-{{ kops_version }}
+    - kubectl-{{ kubectl_version }}
+    - terraform-{{ terraform_version }}
+
+- name: Replace bashrc file
+  copy:
+    src: "bashrc"
+    dest: "{{ admin_home }}/.bashrc"

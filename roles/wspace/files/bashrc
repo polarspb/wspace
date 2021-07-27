@@ -1,0 +1,70 @@
+#Ansible vault
+function fview {
+    ansible-vault view --vault-password-file=~/.genosity_vault_pass $1
+}
+ 
+function fenc {
+    ansible-vault encrypt --vault-password-file=~/.genosity_vault_pass $1
+}
+ 
+function fdec {
+    ansible-vault decrypt --vault-password-file=~/.genosity_vault_pass --output=$2 $1
+}
+#Keepass files
+function get_creds {
+   aws s3 cp s3://devops-gens-epam-com/creds/BAA-pass.kdbx ~/projects/genosity/pass/BAA-pass.kdbx --profile genp
+   aws s3 cp s3://devops-gens-epam-com/creds/noBAA-pass.kdbx ~/projects/genosity/pass/noBAA-pass.kdbx --profile genp
+   aws s3 cp s3://devops-gens-epam-com/creds/VUMC-pass.kdbx ~/projects/genosity/pass/VUMC-pass.kdbx --profile genp
+   aws s3 cp s3://devops-gens-epam-com/creds/other-pass.kdbx ~/projects/genosity/pass/other-pass.kdbx --profile genp
+}
+ 
+function put_creds {
+   aws s3 cp ~/projects/genosity/pass/BAA-pass.kdbx s3://devops-gens-epam-com/creds/BAA-pass.kdbx --profile genp
+   aws s3 cp ~/projects/genosity/pass/noBAA-pass.kdbx s3://devops-gens-epam-com/creds/noBAA-pass.kdbx --profile genp
+   aws s3 cp ~/projects/genosity/pass/VUMC-pass.kdbx s3://devops-gens-epam-com/creds/VUMC-pass.kdbx --profile genp
+   aws s3 cp ~/projects/genosity/pass/other-pass.kdbx s3://devops-gens-epam-com/creds/other-pass.kdbx --profile genp
+}
+#Helm function
+function hupgrade {
+   helm upgrade --install $2-$1 $1 -f $2.yaml -f $2-vault.yaml --namespace $2
+}
+function hinstall {
+   helm install --name $2-$1 $1 -f $2.yaml -f $2-vault.yaml --namespace $2
+}
+function hdinstall {
+   helm install --name $2-$1 $1 -f $2.yaml -f $2-vault.yaml --namespace default
+}
+function hvinstall {
+   helm install --name $1-$2 $2 -f $1.yaml -f $1-vault.yaml --namespace $1 --set imageTag=$3
+}
+function hrender {
+   helm template -f $2.yaml -f $2-vault.yaml --kube-version $3 --namespace $2 $1 >$1.yaml
+}
+ 
+#Console MFA
+get_aws_token() {
+    if [ $# -ne 2 ]; then
+        echo " MFA token has not been provided."
+        echo " Usage: get_aws_token <arn_id> <mfa_code>"
+        return 1
+    fi
+    local mfa_id=$(($1-1))
+    local tokenCode=$2
+    local mfa=("arn:aws:iam::00000000000001:mfa/user"  "arn:aws:iam::00000000000002:mfa/user" "arn:aws:iam::00000000000003:mfa/user")
+    local profile=("acc1-nomfa" "acc2-nomfa" "acc3-nomfa")
+ 
+    result="$(aws sts get-session-token --serial-number ${mfa[mfa_id]} --token-code $tokenCode --profile ${profile[mfa_id]} --duration-seconds 129600)"
+ 
+    aws_access_key_id=$(echo "$result" | awk -F\" '/AccessKeyId/{print $4}')
+    aws_secret_access_key=$(echo "$result" | awk -F\" '/SecretAccessKey/ {print $4}')
+    aws_session_token=$(echo "$result" | awk -F\" '/SessionToken/{print $4}')
+ 
+    aws configure --profile "${profile[mfa_id]%-nomfa}" set aws_access_key_id "$aws_access_key_id"
+    aws configure --profile "${profile[mfa_id]%-nomfa}" set aws_secret_access_key "$aws_secret_access_key"
+    aws configure --profile "${profile[mfa_id]%-nomfa}" set aws_session_token "$aws_session_token"
+ 
+}
+
+eval "$(direnv hook bash)"
+
+export PATH="$HOME/bin:$PATH"
