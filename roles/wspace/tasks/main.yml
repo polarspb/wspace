@@ -60,5 +60,5 @@
 
 - name: Replace bashrc file
   copy:
-    src: "bashrc"
-    dest: "{{ admin_home }}/.bashrc"
+    src: "bash_profile"
+    dest: "{{ admin_home }}/.bash_profile"

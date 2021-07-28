@@ -1,3 +1,18 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+
+eval "$(direnv hook bash)"
+
 #Ansible vault
 function fview {
     ansible-vault view --vault-password-file=~/.genosity_vault_pass $1
@@ -64,7 +79,3 @@ get_aws_token() {
     aws configure --profile "${profile[mfa_id]%-nomfa}" set aws_session_token "$aws_session_token"
  
 }
-
-eval "$(direnv hook bash)"
-
-export PATH="$HOME/bin:$PATH"
