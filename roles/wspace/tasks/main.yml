@@ -32,6 +32,7 @@
     - "{{ kops_url }}"
     - "{{ kubectl_url }}"
     - "{{ terraform_url }}"
+    - "{{ keepass_url }}"
 
 - name: Unzip archives
   unarchive:
@@ -45,6 +46,7 @@
     - kops-{{ kops_version }}
     - kubectl-{{ kubectl_version }}
     - terraform-{{ terraform_version }}
+    - keepassxc-{{ keepass_version }}
 
 - name: Remove archives
   file:
@@ -56,6 +58,7 @@
     - kops-{{ kops_version }}
     - kubectl-{{ kubectl_version }}
     - terraform-{{ terraform_version }}
+    - keepassxc-{{ keepass_version }}
 
 - name: Replace bashrc file
   copy:

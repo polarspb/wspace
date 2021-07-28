@@ -9,8 +9,11 @@ helm_url: "{{ artifacts_host }}/repository/third-party/helm/helm-{{ helm_version
 kops_version: "v1.16.2"
 kops_url: "{{ artifacts_host }}/repository/third-party/kops/kops-{{ kops_version }}.zip"
 
-kubectl_version: "v1.13.0"
+kubectl_version: "v1.21.0"
 kubectl_url: "{{ artifacts_host }}/repository/third-party/kubectl/kubectl-{{ kubectl_version }}.zip"
 
 terraform_version: "v0.11.14"
 terraform_url: "{{ artifacts_host }}/repository/third-party/terraform/terraform-{{ terraform_version }}.zip"
+
+keepass_version: "v2.4.3"
+keepass_url: "{{ artifacts_host }}/repository/third-party/keepassxc/keepassxc-{{ tkeepass_version }}.zip"
