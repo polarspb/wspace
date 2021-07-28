@@ -1,5 +1,5 @@
-yum updaate -y
-yum install git-all -y
-yum install python-pip -y
-pip install ansible -y
+sudo yum -y update
+sudo yum -y install git
+sudo yum -y install python-pip
+sudo pip install ansible
 git clone https://github.com/polarspb/wspace.git
