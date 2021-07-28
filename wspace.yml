@@ -1,5 +1,5 @@
 ---
-- hosts: wspace-host
-  delegate_to: localhost
+- hosts: all
+  connection: local
   roles:
     - wspace

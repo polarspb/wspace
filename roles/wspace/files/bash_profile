@@ -25,6 +25,7 @@ function fenc {
 function fdec {
     ansible-vault decrypt --vault-password-file=~/.genosity_vault_pass --output=$2 $1
 }
+
 #Keepass files
 function get_creds {
    aws s3 cp s3://devops-gens-epam-com/creds/BAA-pass.kdbx ~/projects/genosity/pass/BAA-pass.kdbx --profile genp
@@ -39,6 +40,7 @@ function put_creds {
    aws s3 cp ~/projects/genosity/pass/VUMC-pass.kdbx s3://devops-gens-epam-com/creds/VUMC-pass.kdbx --profile genp
    aws s3 cp ~/projects/genosity/pass/other-pass.kdbx s3://devops-gens-epam-com/creds/other-pass.kdbx --profile genp
 }
+
 #Helm function
 function hupgrade {
    helm upgrade --install $2-$1 $1 -f $2.yaml -f $2-vault.yaml --namespace $2

@@ -3,7 +3,6 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - keepass
     - unzip
 
 - name: Install pip packages
