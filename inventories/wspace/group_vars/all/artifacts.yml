@@ -1,5 +1,0 @@
-artifacts_host: "https://{{ nexus_server }}"
-artifacts_url_path: "/repository/apps/com/gens/"
-artifacts_user: "gens"
-artifacts_password: "{{ vault_artifacts_password }}"
-nexus_server: "nexus.ci.genosity.com"

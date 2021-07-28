@@ -1,4 +1,0 @@
-env_name: "wspace"
-admin_user: "ec2-user"
-admin_group: "ec2-user"
-admin_home: "/home/{{ admin_user }}"
