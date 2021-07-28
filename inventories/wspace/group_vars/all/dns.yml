@@ -1,0 +1,3 @@
+base_domain: "genosity.com"
+public_env_domain: "{{ env_name }}.{{ base_domain }}"
+private_env_domain: "{{ env_name }}"
