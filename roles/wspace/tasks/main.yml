@@ -46,7 +46,7 @@
     - kops-{{ kops_version }}
     - kubectl-{{ kubectl_version }}
     - terraform-{{ terraform_version }}
-    - keepassxc-{{ keepass_version }}
+    - keepassx-{{ keepass_version }}
 
 - name: Remove archives
   file:
@@ -58,7 +58,7 @@
     - kops-{{ kops_version }}
     - kubectl-{{ kubectl_version }}
     - terraform-{{ terraform_version }}
-    - keepassxc-{{ keepass_version }}
+    - keepassx-{{ keepass_version }}
 
 - name: Replace bashrc file
   copy:

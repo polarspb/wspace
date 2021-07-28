@@ -15,5 +15,5 @@ kubectl_url: "{{ artifacts_host }}/repository/third-party/kubectl/kubectl-{{ kub
 terraform_version: "v0.11.14"
 terraform_url: "{{ artifacts_host }}/repository/third-party/terraform/terraform-{{ terraform_version }}.zip"
 
-keepass_version: "v2.4.3"
-keepass_url: "{{ artifacts_host }}/repository/third-party/keepassxc/keepassxc-{{ keepass_version }}.zip"
+keepass_version: "v2.0.3"
+keepass_url: "{{ artifacts_host }}/repository/third-party/keepass/keepassx-{{ keepass_version }}.zip"
